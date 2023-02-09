@@ -1,0 +1,7 @@
+[psql]
+  dbname = "develop"
+  host   = "postgres"
+  port   = 5432
+  user   = "app_user"
+  pass   = "password"
+  sslmode = "disable"
