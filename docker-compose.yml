@@ -9,19 +9,20 @@ services:
     # Dockerfile のディレクトリパス
     build:
       context: .
-      dockerfile: ./docker/postgres/Dockerfile
+      dockerfile: ./docker/postgresql/Dockerfile
     volumes:
-      - ./docker/postgres/volumes:/var/lib/postgresql
+      - ./docker/postgresql/volumes:/var/lib/postgresql
     # postgres 設定
     environment:
       - POSTGRES_USER=app_user
       - POSTGRES_PASSWORD=password
-      - POSTGRES_DB=app_db
+      - POSTGRES_DB=develop
       - TZ=Japan
     ports:
       - "5432:5432"
     expose:
       - "5432"
+    tty: true
 
   # golang アプリケーション
   app:
@@ -33,15 +34,19 @@ services:
     build:
       context: .
       dockerfile: ./docker/golang/Dockerfile
+      target: dev
     # GOPATHを指定
     environment:
       - GOPATH=/go
       - TZ=Asia/Tokyo
     # フォルダ共有（ホストOS:コンテナ）
     volumes:
-      - ./swagger:/go/src/swagger
+      - type: bind
+        source: .
+        target: /go/src/app
     # docker-compose run 実行時に実行されるコマンド
     # command: go run main.go
     ports:
       - "3000:3000"
     tty: true # コンテナの永続化
+    command: ["./start.sh"]

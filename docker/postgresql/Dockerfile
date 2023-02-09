@@ -4,4 +4,4 @@ ENV LANG ja_JP.UTF-8
 ENV LANGUAGE ja_JP:ja
 ENV LC_ALL ja_JP.UTF-8
 
-COPY ./docker/postgres/init/*.sql /docker-entrypoint-initdb.d/
+COPY ./docker/postgresql/data/*.sql /docker-entrypoint-initdb.d/
