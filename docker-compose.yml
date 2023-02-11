@@ -34,7 +34,6 @@ services:
     build:
       context: .
       dockerfile: ./docker/golang/Dockerfile
-      target: dev
     # GOPATHを指定
     environment:
       - GOPATH=/go
@@ -49,4 +48,3 @@ services:
     ports:
       - "3000:3000"
     tty: true # コンテナの永続化
-    command: ["./start.sh"]

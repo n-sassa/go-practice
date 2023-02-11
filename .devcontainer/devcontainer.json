@@ -28,19 +28,20 @@
 				"oderwat.indent-rainbow",
 				"mosapride.zenkaku",
 				"shardulm94.trailing-spaces",
-				"TabNine.tabnine-vscode"
-			]
+				"TabNine.tabnine-vscode",
+				"ms-vscode.makefile-tools"
+			],
+			"settings": {
+				"[go]": {
+					"editor.defaultFormatter": "golang.go",
+					"editor.formatOnSave": true
+				},
+				"go.formatTool": "default",
+				"go.formatFlags": ["-w"],
+				"go.lintTool": "golangci-lint",
+				"go.lintOnSave": "package"
+			}
 		}
-	},
-	"settings": {
-		"editor.defaultFormatter": "golang.go",
-		"[go]": {
-			"editor.formatOnSave": true
-		},
-		"go.formatTool": "default",
-		"go.formatFlags": ["-w"],
-		"go.lintTool": "golangci-lint",
-		"go.lintOnSave": "package"
 	}
 
 	// Features to add to the dev container. More info: https://containers.dev/features.
