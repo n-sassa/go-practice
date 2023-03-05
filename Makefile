@@ -9,6 +9,8 @@ make-seed:
 
 migrate:
 	migrate -database="postgres://app_user:password@postgres:5432/develop?sslmode=disable" -path=app/infrastructure/postgresql/migrations/ up
+	migrate -database="postgres://app_user:password@postgres:5432/test?sslmode=disable" -path=app/infrastructure/postgresql/migrations/ up
 
 migrate-down:
 	migrate -database="postgres://app_user:password@postgres:5432/develop?sslmode=disable" -path=app/infrastructure/postgresql/migrations/ down
+	migrate -database="postgres://app_user:password@postgres:5432/test?sslmode=disable" -path=app/infrastructure/postgresql/migrations/ down

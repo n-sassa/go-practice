@@ -11,7 +11,7 @@ services:
       context: .
       dockerfile: ./docker/postgresql/Dockerfile
     volumes:
-      - ./docker/postgresql/volumes:/var/lib/postgresql
+      - postgres_volume:/var/lib/postgresql/data
     # postgres 設定
     environment:
       - POSTGRES_USER=app_user
@@ -38,6 +38,7 @@ services:
     environment:
       - GOPATH=/go
       - TZ=Asia/Tokyo
+    working_dir: /go/src/app
     # フォルダ共有（ホストOS:コンテナ）
     volumes:
       - type: bind
@@ -48,3 +49,6 @@ services:
     ports:
       - "3000:3000"
     tty: true # コンテナの永続化
+
+volumes:
+  postgres_volume:

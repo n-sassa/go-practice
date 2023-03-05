@@ -9,6 +9,7 @@ import (
 type IUserService interface {
 	FindByID(ctx context.Context, id int) (*models.User, error)
 	Create(ctx context.Context, user *models.User) error
+	Login(ctx context.Context, name string, password string) (bool, error)
 	// Update(ctx context.Context, user *models.User) error
 	// Delete(ctx context.Context, id int) error
 }
@@ -27,4 +28,8 @@ func (us *userService) FindByID(ctx context.Context, id int) (*models.User, erro
 
 func (us *userService) Create(ctx context.Context, user *models.User) error {
 	return us.repo.Create(ctx, user)
+}
+
+func (us *userService) Login(ctx context.Context, name string, password string) (bool, error) {
+	return us.repo.Login(ctx, name, password)
 }

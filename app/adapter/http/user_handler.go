@@ -1,18 +1,13 @@
 package http
 
 import (
+	"app/app/infrastructure/postgresql/models"
 	"app/app/usecase"
-	"log"
 	"net/http"
 	"strconv"
 
 	"github.com/labstack/echo/v4"
 )
-
-type post struct {
-	Name     string `json:"name"`
-	Password string `json:"password"`
-}
 
 type userHandler struct {
 	usecase usecase.IUserUsecase
@@ -40,11 +35,31 @@ func (h *userHandler) FindByID() echo.HandlerFunc {
 
 func (h *userHandler) Create() echo.HandlerFunc {
 	return func(c echo.Context) error {
-		p := new(post)
+		p := new(models.User)
 		if err := c.Bind(p); err != nil {
-			log.Printf("err %v", err.Error())
+			return c.JSON(http.StatusBadRequest, err.Error())
+		}
+		err := h.usecase.Create(c.Request().Context(), p)
+		if err != nil {
 			return c.JSON(http.StatusInternalServerError, err.Error())
 		}
 		return c.JSON(http.StatusCreated, "created")
+	}
+}
+
+func (h *userHandler) Login() echo.HandlerFunc {
+	return func(c echo.Context) error {
+		p := new(models.User)
+		if err := c.Bind(p); err != nil {
+			return c.JSON(http.StatusBadRequest, err.Error())
+		}
+		isExists, err := h.usecase.Login(c.Request().Context(), p.Name, p.Password)
+		if err != nil {
+			return c.JSON(http.StatusInternalServerError, err.Error())
+		}
+		if isExists {
+			return c.JSON(http.StatusOK, true)
+		}
+		return c.JSON(http.StatusBadRequest, "ユーザが存在しないかパスワードが誤っています。")
 	}
 }

@@ -24,3 +24,7 @@ func (u *UserRepository) FindByID(ctx context.Context, id int) (*models.User, er
 func (u *UserRepository) Create(ctx context.Context, user *models.User) error {
 	return user.Insert(ctx, u.DB, boil.Infer())
 }
+
+func (u *UserRepository) Login(ctx context.Context, name string, password string) (bool, error) {
+	return models.Users(models.UserWhere.Name.EQ(name), models.UserWhere.Password.EQ(password)).Exists(ctx, u.DB)
+}
